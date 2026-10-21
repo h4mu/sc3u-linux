@@ -46,6 +46,8 @@ sudo linux32 ./setup.sh
 
 Use the default paths for installation when required, and answer **y** to the different questions about what to install (that way you will not need the CD or the ISO to run the game)
 
+On 64-bit systems the original installer may fail or install only the data files. The patcher below completes the missing binaries and libraries from the mounted CD/ISO.
+
 ### Patch the game
 
 Clone this repository (if you are reading this file at GitHub WebUI), and proceed to the directory where the local clone is stored (using a terminal)
@@ -56,21 +58,36 @@ Make sure you have the required tools installed. The names of the packages that 
 - cat
 - patch
 - tar
+- install (coreutils)
+- linux32 (util-linux)
 
-Run:
-
+With the CD/ISO mounted at `/mnt`, run:
 
 ```bash
-./sc3u-patcher.sh
+sudo ./sc3u-patcher.sh
 ```
 
-The script will take care of everything, asking for your password to use sudo when required. It will start the official SimCity 3000 2.0 patch for you (after patching it), so you just need to follow the assitant.
+If the CD/ISO is mounted somewhere else, set `CDROM_PATH`:
 
-Provided that there were no errors, you are ready to run SimCity 3000.
+```bash
+sudo CDROM_PATH=/path/to/cdrom ./sc3u-patcher.sh
+```
+
+The script completes the base installation if needed, applies the official SimCity 3000 2.0a patch, installs the Loki compatibility libraries, creates the launcher, and installs/starts `osspd` when possible. It is safe to run it again if a step fails.
+
+Provided that there were no errors, you are ready to run SimCity 3000. Try windowed mode first:
+
+```bash
+sc3u -w
+```
+
+If that works, run `sc3u` for fullscreen mode.
 
 ### But I do not have sound!
 
-Yes, if you are using [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) (most people at this moment), there is a final step.
+The patcher above tries to install and start `osspd` automatically. If that did not work, or you are setting things up manually, read on.
+
+Yes, if you are using [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/) or PipeWire's PulseAudio compatibility (most people at this moment), there is a final step.
 
 Since the game requires OSS (so far I was not able to make it work with padsp, aoss or esdcompat), you will need to use a software that is able to emulate OSS devices and send the audio to PulseAudio.
 
@@ -85,7 +102,7 @@ You can proceed to [openSUSE downloads](https://software.opensuse.org/download.h
 Install osspd and the backend for PulseAudio:
 
 ```bash
-apt-get install osspd osspd-pulseaudio
+sudo apt-get install osspd osspd-pulseaudio
 ```
 
 #### Enabling osspd on boot
@@ -93,7 +110,7 @@ apt-get install osspd osspd-pulseaudio
 * systemd (openSUSE and modern Debian)
 
   ```bash
-  sudo systemctl enable osspd
+  sudo systemctl enable --now osspd
   ```
 
 * SysVinit (Debian)
