@@ -81,6 +81,29 @@ sc3u -w
 
 Si funciona, ejecuta `sc3u` para el modo pantalla completa.
 
+### Pantallas panorámicas y altas resoluciones
+
+Por defecto SimCity 3000 solo ofrece unas pocas resoluciones 4:3, incluso si tu
+pantalla soporta más. Para desbloquear modos panorámicos, ejecuta el script
+auxiliar una vez después de instalar el juego:
+
+```bash
+sudo ./sc3u-widescreen.sh
+```
+
+Después inicia el juego y elige la resolución en las opciones de vídeo/pantalla
+del juego. El script añade `1280x720`, `1920x1080` y `2560x1440`, sustituyendo
+los modos 4:3 altos menos útiles. Elige solo un modo que tu pantalla soporte de
+verdad. No uses la opción `-r` del lanzador: el juego nativo la ignora.
+
+Usa resoluciones cuyo ancho y alto sean divisibles por 8. Modos como
+`1366x768`, `1600x900` y `1440x900` se sabe que provocan caídas. La interfaz
+del juego no escala con la resolución, por lo que se verá pequeña en pantallas
+de alta resolución.
+
+Ejecuta `./sc3u-widescreen.sh --status` para comprobar el parche, o
+`./sc3u-widescreen.sh --revert` para restaurar el ejecutable original.
+
 ### ¡Pero no tengo sonido!
 
 El parcheador de arriba intenta instalar y arrancar `osspd` automáticamente. Si no ha funcionado, o si lo estás configurando a mano, sigue leyendo.
