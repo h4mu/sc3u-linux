@@ -83,6 +83,29 @@ sc3u -w
 
 If that works, run `sc3u` for fullscreen mode.
 
+### Widescreen and high resolutions
+
+By default SimCity 3000 only offers a few 4:3 resolutions, even if your
+display supports more. To unlock widescreen modes, run the helper once after
+installing the game:
+
+```bash
+sudo ./sc3u-widescreen.sh
+```
+
+Then start the game and choose the resolution in the in-game video/display
+options. The helper adds `1280x720`, `1920x1080` and `2560x1440`, replacing the
+less useful high 4:3 modes. Only choose a mode your display actually supports.
+Do not use the launcher's `-r` option: the native game ignores it.
+
+Use resolutions whose width and height are both divisible by 8. Modes such as
+`1366x768`, `1600x900` and `1440x900` are known to crash. The game interface
+does not scale with the resolution, so it will look small on high-resolution
+displays.
+
+Run `./sc3u-widescreen.sh --status` to check the patch, or
+`./sc3u-widescreen.sh --revert` to restore the original executable.
+
 ### But I do not have sound!
 
 The patcher above tries to install and start `osspd` automatically. If that did not work, or you are setting things up manually, read on.
